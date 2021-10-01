@@ -22,6 +22,6 @@ public class Main {
         IWriter writer = new IWriter();
         writer.write(filename, encodedString);
         //writer.write(filename, enteredString);
-        
+        System.out.println();
     }
 }
