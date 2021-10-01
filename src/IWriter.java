@@ -16,7 +16,7 @@ public class IWriter {
         }
     }*/
 
-    void write(String filename, String str){
+    void write (String filename, String str) {
         try(FileOutputStream fos = new FileOutputStream(filename)){
             byte[] buffer = str.getBytes(StandardCharsets.UTF_8);
             fos.write(buffer, 0, buffer.length);

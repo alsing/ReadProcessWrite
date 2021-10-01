@@ -42,16 +42,18 @@ public class IReader {
         return n;
     }*/
 
-    void read(String name){
-        try(FileInputStream fin = new FileInputStream(name)){
+    String read(String name){
+        String s = "";
+        try(FileInputStream fin = new FileInputStream(name)) {
             byte[] buffer = new byte[fin.available()];
             fin.read(buffer, 0, fin.available());
             //String str = StandardCharsets.UTF_8.decode(byteBuffer).toString();
-            String s = new String( buffer , StandardCharsets.UTF_8 );
-            System.out.println(s);
+            s = new String( buffer , StandardCharsets.UTF_8 );
+
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
         }
+        return s;
     }
 }
