@@ -3,10 +3,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class IArchiver {
-    void archive(String str) {
-        try(ZipOutputStream zout = new ZipOutputStream(new FileOutputStream("newArchive.zip"))){
-            ZipEntry entry = new ZipEntry("newData.txt");
+public class IArchive {
+    static void archive(String filename, String str) {
+        try(ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(filename))){
+            ZipEntry entry = new ZipEntry(filename.substring(0, filename.length() - 4) + ".txt");
             zout.putNextEntry(entry);
             zout.write(str.getBytes(StandardCharsets.UTF_8));
             zout.closeEntry();

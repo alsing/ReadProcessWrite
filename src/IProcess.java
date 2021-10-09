@@ -2,17 +2,43 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class IProcess {
-    void process(String strs[]) {
-        for(int i = 0; i < 3; i++){
-            strs[i] += "!!!\n";
+    static String calculateExpression(String firstOperand, String operator, String secondOperand) {
+        if (operator.equals("+")) {
+            return Double.toString(Double.parseDouble(firstOperand) + Double.parseDouble(secondOperand));
+        }
+        if (operator.equals("-")) {
+            return Double.toString(Double.parseDouble(firstOperand) - Double.parseDouble(secondOperand));
+        }
+        if (operator.equals("*")) {
+            return Double.toString(Double.parseDouble(firstOperand) * Double.parseDouble(secondOperand));
+        }
+        if (operator.equals("/")) {
+            return Double.toString(Double.parseDouble(firstOperand) / Double.parseDouble(secondOperand));
+        }
+        return "";
+    }
+
+    static String process(String str) {
+        Pattern patternForExp = Pattern.compile("\\d{1,}[-+*/]\\d{1,}");
+        Matcher matcherForExp = patternForExp.matcher(str);
+        while (matcherForExp.find()) {
+            String expression = matcherForExp.group();
+
+            Pattern patternForOperand = Pattern.compile("\\d{1,}");
+            Matcher matcherForOperand = patternForOperand.matcher(expression);
+
+            String operands[] = new String[2];
+
+            matcherForOperand.find();
+            operands[0] = matcherForOperand.group();
+            String operator = expression.substring(matcherForOperand.end(), matcherForOperand.end() + 1);
+            operands[1] = expression.substring(matcherForOperand.end() + 1);
+
+            String result = calculateExpression(operands[0], operator, operands[1]);
+            str = matcherForExp.replaceFirst(result);
+            matcherForExp = patternForExp.matcher(str);
         }
 
-        String text = "1+2mnfbdfd-2jnefjn0000+2";
-        Pattern pattern = Pattern.compile("[0-9].+[-+*/].+[0-9]");
-        Matcher matcher = pattern.matcher(text);
-        while (matcher.find()) {
-            System.out.println(text.substring(matcher.start(), matcher.end()));
-        }
-
+        return str;
     }
 }

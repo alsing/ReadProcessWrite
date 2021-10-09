@@ -3,9 +3,10 @@ import java.io.FileInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class IUnarchiver {
-    void unarchive(String filename) {
+public class IUnarchive {
+    static String unarchive(String filename) {
         try(ZipInputStream zin = new ZipInputStream(new FileInputStream(filename))) {
+
             ZipEntry entry;
             String name;
             long size;
@@ -13,18 +14,19 @@ public class IUnarchiver {
                 name = entry.getName();
                 size = entry.getSize();
                 System.out.printf("File name: %s \t File size: %d \n", name, size);
+                byte buffer[] = new byte[(int)size];
 
-                FileOutputStream fout = new FileOutputStream( "new" + name);
-                for (int c = zin.read(); c != -1; c = zin.read()) {
-                    fout.write(c);
+                for (int c = zin.read(), i = 0; c != -1 && i < size; c = zin.read(), i++) {
+                    buffer[i] = (byte)c;
                 }
-                fout.flush();
                 zin.closeEntry();
-                fout.close();
+                return new String(buffer);
             }
         }
         catch(Exception ex){
             System.out.println(ex.getMessage());
         }
+
+        return "";
     }
 }
